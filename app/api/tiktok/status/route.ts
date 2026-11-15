@@ -1,0 +1,4 @@
+import { NextRequest, NextResponse } from "next/server";
+import { readSession, writeSession } from "@/lib/session";
+import { refreshSession, tiktokFetch } from "@/lib/tiktok";
+export async function GET(request:NextRequest){try{const current=await readSession();if(!current)return NextResponse.json({error:"Not connected"},{status:401});const session=await refreshSession(current);if(session.accessToken!==current.accessToken)await writeSession(session);const publishId=request.nextUrl.searchParams.get("publish_id");if(!publishId)return NextResponse.json({error:"Missing publish ID"},{status:400});const data=await tiktokFetch(session,"/v2/post/publish/status/fetch/",{method:"POST",body:JSON.stringify({publish_id:publishId})});return NextResponse.json(data.data)}catch(e){return NextResponse.json({error:e instanceof Error?e.message:"Status check failed"},{status:400})}}

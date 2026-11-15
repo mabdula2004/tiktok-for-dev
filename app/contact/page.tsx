@@ -1,0 +1,3 @@
+export default function Contact() {
+  return <article className="legal shell"><div className="eyebrow">Support</div><h1>Contact CreatorFlow</h1><p>For account connection, publishing, privacy, or deletion support, use our public support page:</p><p><a className="primary" href="https://github.com/mabdula2004/tiktok-for-dev/issues">Open support request</a></p><h2>What to include</h2><p>Describe the issue and include any non-sensitive error message or publish ID. Never share your TikTok password, Client Secret, access token, or refresh token.</p><h2>Service operator</h2><p>CreatorFlow by Keaitec<br/>TikTok: @keaitec</p></article>;
+}

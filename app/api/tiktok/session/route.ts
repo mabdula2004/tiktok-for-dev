@@ -1,0 +1,4 @@
+import { NextResponse } from "next/server";
+import { readSession, writeSession } from "@/lib/session";
+import { refreshSession, tiktokFetch } from "@/lib/tiktok";
+export async function GET(){try{const current=await readSession();if(!current)return NextResponse.json({connected:false});const session=await refreshSession(current);if(session.accessToken!==current.accessToken)await writeSession(session);const info=await tiktokFetch(session,"/v2/user/info/?fields=open_id,union_id,avatar_url,display_name");const creator=await tiktokFetch(session,"/v2/post/publish/creator_info/query/",{method:"POST",body:"{}"});return NextResponse.json({connected:true,user:info.data.user,creator:creator.data})}catch(e){return NextResponse.json({connected:false,error:e instanceof Error?e.message:"Session failed"},{status:401})}}
